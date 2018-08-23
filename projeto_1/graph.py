@@ -1,11 +1,12 @@
-from node import Node
 from graphviz import Digraph
+from edge import Edge
 
 
 class Graph:
     def __init__(self):
         self.nodes = []
         self.dot = Digraph()
+        self.edges = []
         pass
 
     def add_node(self, node):
@@ -23,6 +24,7 @@ class Graph:
         node_1 = self.get_node(id_1)
         node_2 = self.get_node(id_2)
         node_1.add_adj(node_2, edge_name)
+        self.edges.append(Edge(id_1, id_2, edge_name))
 
     def create_output(self):
         self.dot.render('test-output/graph.gv', view=True)

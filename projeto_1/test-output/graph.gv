@@ -1,6 +1,5 @@
 digraph {
 	0
 	1
-	0 -> 1 [label=kss]
-	1 -> 0 [label=kiddeideio]
+	0 -> 1 [label="aaaa+bb"]
 }
