@@ -7,11 +7,10 @@ class RegexHandler:
         self.expr = expr
         self.graph = Graph()
         node_inicio = Node(0)
-        node_final = Node(1)
+        node_final = Node(1, shape='doublecircle')
         self.graph.add_node(node_inicio)
         self.graph.add_node(node_final)
         self.graph.add_edge(0, 1, self.expr)
-        self.graph.print_graph()
 
     def check_running(self):
         running = False
@@ -21,13 +20,13 @@ class RegexHandler:
                 break
             elif len(edge.label) < 1:
                 print("Edge between id_1 = ", edge.id_1, " and id_2 = ", edge.id_2, " is empty")
-        # self.graph.print_graph()
         return running
 
     def check_union(self):
         pass
 
     def check_concatenation(self):
+
         pass
 
     def check_kleene(self):

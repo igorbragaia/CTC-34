@@ -11,7 +11,6 @@ class Graph:
 
     def add_node(self, node):
         self.nodes.append(node)
-        self.dot.node(str(node.id))
 
     def get_node(self, id):
         for i in range(len(self.nodes)):
@@ -20,13 +19,17 @@ class Graph:
         print("Node with id = ", id, " not found in function get_node")
 
     def add_edge(self, id_1, id_2, edge_name):
-        self.dot.edge(str(id_1), str(id_2), label=str(edge_name))
         node_1 = self.get_node(id_1)
         node_2 = self.get_node(id_2)
         node_1.add_adj(node_2, edge_name)
         self.edges.append(Edge(id_1, id_2, edge_name))
 
     def create_output(self):
+        for node in self.nodes:
+            self.dot.node(str(node.id), shape=node.shape)
+        for edge in self.edges:
+            self.dot.edge(str(edge.id_1), str(edge.id_2), label=str(edge.label))
+
         self.dot.render('test-output/graph.gv', view=True)
 
     def print_graph(self):

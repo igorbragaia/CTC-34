@@ -2,10 +2,11 @@ import pprint
 
 
 class Node:
-    def __init__(self, id):
+    def __init__(self, id, shape='circle'):
         self.id = id
         self.adjs = []
         self.edge = None
+        self.shape = shape
 
     def add_adj(self, other_node, edge_name):
         self.adjs.append(other_node)
