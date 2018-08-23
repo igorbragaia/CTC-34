@@ -13,4 +13,4 @@ class Node:
 
     def print_adjs(self):
         print("On node: ", self.id)
-        pprint(self.adjs)
+        print(self.adjs)

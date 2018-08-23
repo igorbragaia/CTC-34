@@ -31,7 +31,6 @@ class Graph:
 
     def print_graph(self):
         print(self.dot)
-        # print(self.nodes)
 
         for i in range(len(self.nodes)):
             print(self.nodes[i].id)

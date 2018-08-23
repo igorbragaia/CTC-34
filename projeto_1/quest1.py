@@ -1,10 +1,13 @@
 from regex_handler import RegexHandler
 
 if __name__ == "__main__":
-    regex_handler = RegexHandler()
+    expr = input("Digite a expressão regular aqui: ")
+    regex_handler = RegexHandler(expr)
 
-    while RegexHandler.check_running():
-        pass
+    while regex_handler.check_running():
+        regex_handler.check_union()
+        regex_handler.check_concatenation()
+        regex_handler.check_kleene()
+        regex_handler.check_parentheses()
 
     regex_handler.graph.create_output()
-

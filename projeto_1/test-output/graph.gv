@@ -1,5 +1,5 @@
 digraph {
 	0
 	1
-	0 -> 1 [label="aaaa+bb"]
+	0 -> 1 [label="(a)"]
 }

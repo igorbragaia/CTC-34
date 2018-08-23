@@ -3,8 +3,8 @@ from node import Node
 
 
 class RegexHandler:
-    def __init__(self):
-        self.expr = input("Digite a expressão regular aqui: ")
+    def __init__(self, expr):
+        self.expr = expr
         self.graph = Graph()
         node_inicio = Node(0)
         node_final = Node(1)
@@ -21,4 +21,19 @@ class RegexHandler:
                 break
             elif len(edge.label) < 1:
                 print("Edge between id_1 = ", edge.id_1, " and id_2 = ", edge.id_2, " is empty")
+        # self.graph.print_graph()
         return running
+
+    def check_union(self):
+        pass
+
+    def check_concatenation(self):
+        pass
+
+    def check_kleene(self):
+        pass
+
+    def check_parentheses(self):
+        for edge in self.graph.edges:
+            if edge.label[0] == '(' and edge.label[-1] == ')':
+                edge.label = edge.label[1:-1]
