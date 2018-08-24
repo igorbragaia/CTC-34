@@ -27,7 +27,24 @@ class Graph:
         node_1.add_adj(node_2, edge_name)
         self.edges.append(Edge(id_1, id_2, edge_name))
 
+    def compact_edges(self):
+        print("Compacting edges")
+        self.print_edges()
+        length = len(self.edges)
+        i = 0
+        while i < len(self.edges):
+            j = i+1
+            while j < len(self.edges):
+                if self.edges[i].id_1 == self.edges[j].id_1 and self.edges[i].id_2 == self.edges[j].id_2:
+                    self.edges[i].label += "," + self.edges[j].label
+                    length -= 1
+                    del self.edges[j]
+                else:
+                    j += 1
+            i += 1
+
     def create_output(self):
+        self.compact_edges()
         for node in self.nodes:
             self.dot.node(str(node.id), shape=node.shape)
         for edge in self.edges:
