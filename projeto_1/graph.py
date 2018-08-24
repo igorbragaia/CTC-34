@@ -2,6 +2,7 @@ from graphviz import Digraph
 from edge import Edge
 from node import Node
 
+
 class Graph:
     def __init__(self):
         self.nodes = []
@@ -39,5 +40,7 @@ class Graph:
             print(self.nodes[i].id)
 
     def print_edges(self):
+        print("Edges:")
         for i in range(len(self.edges)):
             print(self.edges[i].id_1, " ", self.edges[i].id_2, ": ", self.edges[i].label)
+        print("")

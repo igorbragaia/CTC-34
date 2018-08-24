@@ -8,7 +8,7 @@ class RegexHandler:
         self.graph = Graph()
         node_inicio = self.graph.create_node()
         node_final = self.graph.create_node(shape='doublecircle')
-        self.graph.add_edge(0, 1, self.expr)
+        self.graph.add_edge(node_inicio, node_final, self.expr)
 
     def check_running(self):
         running = False
@@ -21,17 +21,48 @@ class RegexHandler:
         return running
 
     def check_union(self):
-        pass
-        # for edge in self.graph.edges:
-        #     spliter = edge.label.split('+')
-        #     if len(spliter) > 1:
-        #         edge.label = spliter[0]
-        #     for i in range(1, len(spliter)):
-        #         self.graph.add_edge(edge.id_1, edge.id_2, str(spliter[i]))
+        for edge in self.graph.edges:
+            found = True
+            while found:
+                number_of_oppened_parentheses = 0
+                found = False
+                for i in range(len(edge.label)):
+                    char = edge.label[i]
+                    if char == '(':
+                        number_of_oppened_parentheses += 1
+                    elif char == ')':
+                        number_of_oppened_parentheses -= 1
+                    elif char == '+' and number_of_oppened_parentheses == 0:
+                        found = True
+                        str_1 = edge.label[0:i]
+                        str_2 = edge.label[i+1:]
+                        # print("edge.label = ", edge.label, "str_1 = ", str_1, ", str_2 = ", str_2)
+                        edge.label = str_1
+                        self.graph.add_edge(edge.id_1, edge.id_2, str_2)
+                        break
 
     def check_concatenation(self):
-        string = "123+456"
-        pass
+        for edge in self.graph.edges:
+            found = True
+            while found:
+                number_of_oppened_parentheses = 0
+                found = False
+                for i in range(len(edge.label)):
+                    char = edge.label[i]
+                    if char == '(':
+                        number_of_oppened_parentheses += 1
+                    elif char == ')':
+                        number_of_oppened_parentheses -= 1
+                    elif char != '*' and number_of_oppened_parentheses == 0 and i != 0:
+                        found = True
+                        str_1 = edge.label[0:i]
+                        str_2 = edge.label[i:]
+                        print("edge.label = ", edge.label, "str_1 = ", str_1, ", str_2 = ", str_2)
+                        node_id = self.graph.create_node()
+                        edge.label = str_1
+                        self.graph.add_edge(node_id, edge.id_2, str_2)
+                        edge.id_2 = int(node_id)
+                        break
 
     def check_kleene(self):
         aux_str = ""
@@ -51,7 +82,6 @@ class RegexHandler:
                             break
                 else:
                     aux_str = edge.label[-2]
-                print(aux_str)
                 node_id = self.graph.create_node()
                 id_1 = int(edge.id_1)
                 id_2 = int(edge.id_2)

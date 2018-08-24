@@ -10,6 +10,6 @@ if __name__ == "__main__":
         regex_handler.check_concatenation()
         regex_handler.check_kleene()
         regex_handler.check_parentheses()
-        # regex_handler.graph.print_edges()
+        regex_handler.graph.print_edges()
 
     regex_handler.graph.create_output()
