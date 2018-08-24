@@ -1,6 +1,3 @@
-import pprint
-
-
 class Node:
     def __init__(self, id, shape='circle'):
         self.id = id

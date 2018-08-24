@@ -1,6 +1,6 @@
 from graphviz import Digraph
 from edge import Edge
-
+from node import Node
 
 class Graph:
     def __init__(self):
@@ -9,8 +9,10 @@ class Graph:
         self.edges = []
         pass
 
-    def add_node(self, node):
-        self.nodes.append(node)
+    def create_node(self, shape='circle'):
+        id = len(self.nodes)
+        self.nodes.append(Node(id, shape=shape))
+        return id
 
     def get_node(self, id):
         for i in range(len(self.nodes)):
@@ -32,8 +34,10 @@ class Graph:
 
         self.dot.render('test-output/graph.gv', view=True)
 
-    def print_graph(self):
-        print(self.dot)
-
+    def print_nodes(self):
         for i in range(len(self.nodes)):
             print(self.nodes[i].id)
+
+    def print_edges(self):
+        for i in range(len(self.edges)):
+            print(self.edges[i].id_1, " ", self.edges[i].id_2, ": ", self.edges[i].label)
