@@ -28,8 +28,6 @@ class Graph:
         self.edges.append(Edge(id_1, id_2, edge_name))
 
     def compact_edges(self):
-        print("Compacting edges")
-        self.print_edges()
         length = len(self.edges)
         i = 0
         while i < len(self.edges):

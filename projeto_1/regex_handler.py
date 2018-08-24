@@ -55,9 +55,8 @@ class RegexHandler:
                     elif char != '*' and number_of_oppened_parentheses == 0:
                         str_1 = edge.label[0:i+1]
                         str_2 = edge.label[i+1:]
-                        if str_1 and str_2:
+                        if str_1 and str_2 and str_2[0] != '*':
                             found = True
-                            print("edge.label = ", edge.label, "str_1 = ", str_1, ", str_2 = ", str_2)
                             node_id = self.graph.create_node()
                             edge.label = str_1
                             self.graph.add_edge(node_id, edge.id_2, str_2)
@@ -65,9 +64,8 @@ class RegexHandler:
                             break
                         str_1 = edge.label[0:i]
                         str_2 = edge.label[i:]
-                        if str_1 and str_2:
+                        if str_1 and str_2 and str_2[0] != '*':
                             found = True
-                            print("edge.label = ", edge.label, "str_1 = ", str_1, ", str_2 = ", str_2)
                             node_id = self.graph.create_node()
                             edge.label = str_1
                             self.graph.add_edge(node_id, edge.id_2, str_2)
@@ -80,9 +78,8 @@ class RegexHandler:
 
         for edge in self.graph.edges:
             if edge.label[-1] == '*':
-                if edge.label[-2] == ')':
+                if len(edge.label) > 1 and edge.label[-2] == ')':
                     for i in range(len(edge.label)-2, -1, -1):
-                        # print("i = ", str(i), ", A[i] = " , edge.label[i])
                         if edge.label[i] == ')':
                             number_of_closed_parentheses += 1
                         elif edge.label[i] == '(':
