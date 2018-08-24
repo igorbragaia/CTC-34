@@ -52,16 +52,27 @@ class RegexHandler:
                         number_of_oppened_parentheses += 1
                     elif char == ')':
                         number_of_oppened_parentheses -= 1
-                    elif char != '*' and number_of_oppened_parentheses == 0 and i != 0:
-                        found = True
+                    elif char != '*' and number_of_oppened_parentheses == 0:
+                        str_1 = edge.label[0:i+1]
+                        str_2 = edge.label[i+1:]
+                        if str_1 and str_2:
+                            found = True
+                            print("edge.label = ", edge.label, "str_1 = ", str_1, ", str_2 = ", str_2)
+                            node_id = self.graph.create_node()
+                            edge.label = str_1
+                            self.graph.add_edge(node_id, edge.id_2, str_2)
+                            edge.id_2 = int(node_id)
+                            break
                         str_1 = edge.label[0:i]
                         str_2 = edge.label[i:]
-                        print("edge.label = ", edge.label, "str_1 = ", str_1, ", str_2 = ", str_2)
-                        node_id = self.graph.create_node()
-                        edge.label = str_1
-                        self.graph.add_edge(node_id, edge.id_2, str_2)
-                        edge.id_2 = int(node_id)
-                        break
+                        if str_1 and str_2:
+                            found = True
+                            print("edge.label = ", edge.label, "str_1 = ", str_1, ", str_2 = ", str_2)
+                            node_id = self.graph.create_node()
+                            edge.label = str_1
+                            self.graph.add_edge(node_id, edge.id_2, str_2)
+                            edge.id_2 = int(node_id)
+                            break
 
     def check_kleene(self):
         aux_str = ""
