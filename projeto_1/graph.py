@@ -27,12 +27,13 @@ class EpsilonNFAToNFA:
 
         for node1, closure in self.closures.items():
 
-            for node in closure:
-                neighbors = [edge for edge in edges if edge.id_1 == node]
-                for neighbor in neighbors:
-                        nested_closure = self.closures[neighbor.id_2]
-                        for nested_neighbor in nested_closure:
-                            self.graph.add_edge(node1, nested_neighbor, neighbor.label)
+            for node2 in closure:
+                neighbors = [edge for edge in edges if edge.id_1 == node2]
+                for node3 in neighbors:
+                    nested_closure = self.closures[node3.id_2]
+                    for node4 in nested_closure:
+
+                        self.graph.add_edge(node1, node4, node3.label)
 
 
 class Graph:
