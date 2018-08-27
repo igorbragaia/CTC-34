@@ -3,6 +3,38 @@ from edge import Edge
 from node import Node
 
 
+class EpsilonNFAToNFA:
+    def __init__(self, graph):
+        self.graph = graph
+        self.closures = {}
+
+        self.create_closures(0)
+
+        self.create_graph()
+
+    def create_closures(self, node):
+        self.closures[node] = [node]
+        neighbors = [edge for edge in self.graph.edges if edge.id_1 == node]
+        for edge in neighbors:
+            if edge.id_2 not in self.closures:
+                self.create_closures(edge.id_2)
+            if edge.label == '&':
+                self.closures[node].extend(self.closures[edge.id_2])
+
+    def create_graph(self):
+        edges = [edge for edge in self.graph.edges if edge.label != '&']
+        self.graph.edges = []
+
+        for node1, closure in self.closures.items():
+
+            for node in closure:
+                neighbors = [edge for edge in edges if edge.id_1 == node]
+                for neighbor in neighbors:
+                        nested_closure = self.closures[neighbor.id_2]
+                        for nested_neighbor in nested_closure:
+                            self.graph.add_edge(node1, nested_neighbor, neighbor.label)
+
+
 class Graph:
     def __init__(self):
         self.nodes = []
