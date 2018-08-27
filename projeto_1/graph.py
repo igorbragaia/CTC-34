@@ -26,6 +26,8 @@ class EpsilonNFAToNFA:
         self.graph.edges = []
 
         for node1, closure in self.closures.items():
+            if len([node for node in closure if self.graph.nodes[node].shape == "doublecircle"]) > 0:
+                self.graph.nodes[node1].shape = "doublecircle"
 
             for node2 in closure:
                 neighbors = [edge for edge in edges if edge.id_1 == node2]
