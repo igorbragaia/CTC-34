@@ -23,16 +23,17 @@ class EpsilonNFAToNFA:
 
     def create_graph(self):
         self.graph.edges = [edge for edge in self.graph.edges if edge.label != '&']
+        initial_edges = list(self.graph.edges)
 
         for node in self.graph.nodes:
             node_id = node.id
-            arriving_edges = [edge for edge in self.graph.edges if edge.id_2 == node_id]
+            arriving_edges = [edge for edge in initial_edges if edge.id_2 == node_id]
             for next_node in self.closures[node_id]:
                 for arriving_edge in arriving_edges:
                     if not self.graph.check_edge_existence(arriving_edge.id_1, next_node, arriving_edge.label):
                         self.graph.add_edge(arriving_edge.id_1, next_node, arriving_edge.label)
 
-            leaving_edges = [edge for edge in self.graph.edges if edge.id_1 == node_id]
+            leaving_edges = [edge for edge in initial_edges if edge.id_1 == node_id]
             for previous_node, closure in self.closures.items():
                 if node_id in closure:
                     for leaving_edge in leaving_edges:
