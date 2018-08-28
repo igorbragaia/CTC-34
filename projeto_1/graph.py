@@ -22,20 +22,26 @@ class EpsilonNFAToNFA:
                 self.closures[node].extend(self.closures[edge.id_2])
 
     def create_graph(self):
-        edges = [edge for edge in self.graph.edges if edge.label != '&']
-        self.graph.edges = []
+        self.graph.edges = [edge for edge in self.graph.edges if edge.label != '&']
+
+        for node in self.graph.nodes:
+            node_id = node.id
+            arriving_edges = [edge for edge in self.graph.edges if edge.id_2 == node_id]
+            for next_node in self.closures[node_id]:
+                for arriving_edge in arriving_edges:
+                    if not self.graph.check_edge_existence(arriving_edge.id_1, next_node, arriving_edge.label):
+                        self.graph.add_edge(arriving_edge.id_1, next_node, arriving_edge.label)
+
+            leaving_edges = [edge for edge in self.graph.edges if edge.id_1 == node_id]
+            for previous_node, closure in self.closures.items():
+                if node_id in closure:
+                    for leaving_edge in leaving_edges:
+                        if not self.graph.check_edge_existence(previous_node, leaving_edge.id_2, leaving_edge.label):
+                            self.graph.add_edge(previous_node, leaving_edge.id_2, leaving_edge.label)
 
         for node1, closure in self.closures.items():
             if len([node for node in closure if self.graph.nodes[node].shape == "doublecircle"]) > 0:
                 self.graph.nodes[node1].shape = "doublecircle"
-
-            for node2 in closure:
-                neighbors = [edge for edge in edges if edge.id_1 == node2]
-                for node3 in neighbors:
-                    nested_closure = self.closures[node3.id_2]
-                    for node4 in nested_closure:
-
-                        self.graph.add_edge(node1, node4, node3.label)
 
 
 class Graph:
@@ -61,6 +67,12 @@ class Graph:
         node_2 = self.get_node(id_2)
         node_1.add_adj(node_2, edge_name)
         self.edges.append(Edge(id_1, id_2, edge_name))
+
+    def check_edge_existence(self, id_1, id_2, edge_name):
+        for edge in self.edges:
+            if edge.id_1 == id_1 and edge.id_2 == id_2 and edge.label == edge_name:
+                return True
+        return False
 
     def compact_edges(self):
         length = len(self.edges)
