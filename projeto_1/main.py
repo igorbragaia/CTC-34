@@ -14,3 +14,4 @@ if __name__ == "__main__":
 
     regex_handler.graph.epsilon_nfa_to_nfa()
     regex_handler.graph.create_output()
+    regex_handler.graph.string_accepted("abb")

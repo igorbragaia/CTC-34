@@ -81,6 +81,28 @@ class Graph:
         self.__create_closures(0)
         self.__rewrite_graph()
 
+    def string_accepted(self, chain):
+        accepted = False
+
+        actual_nodes_state = []
+        for i in range(len(self.nodes)):
+            actual_nodes_state.append(False)
+        actual_nodes_state[0] = True
+
+        # for i in range(len(chain)):
+
+
+        return accepted
+
+    def substring_accepted(self, chain):
+        accepted = False
+        for i in range(len(chain)):
+            subchain = chain[i:]
+            accepted = self.string_accepted(subchain)
+            if accepted:
+                break
+        return accepted
+
     def __create_closures(self, node):
         self.closures[node] = [node]
         neighbors = [edge for edge in self.edges if edge.id_1 == node]
