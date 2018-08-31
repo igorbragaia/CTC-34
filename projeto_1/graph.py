@@ -81,27 +81,34 @@ class Graph:
         self.__create_closures(0)
         self.__rewrite_graph()
 
-    def string_accepted(self, chain):
-        accepted = False
-
-        actual_nodes_state = []
-        for i in range(len(self.nodes)):
-            actual_nodes_state.append(False)
-        actual_nodes_state[0] = True
-
-        # for i in range(len(chain)):
-
-
-        return accepted
-
-    def substring_accepted(self, chain):
-        accepted = False
+    def strings_accepted(self, chain):
+        ids_possible_states = [0]
+        ids_possible_states_aux = []
         for i in range(len(chain)):
-            subchain = chain[i:]
-            accepted = self.string_accepted(subchain)
-            if accepted:
-                break
-        return accepted
+            for current_id_possible_state in ids_possible_states:
+                for j in range(len(self.edges)):
+                    if (self.edges[j].id_1 == current_id_possible_state) and (chain[i] in self.edges[j].label):
+                        ids_possible_states_aux.append(self.edges[j].id_2)
+            ids_possible_states = []
+            for j in ids_possible_states_aux:
+                ids_possible_states.append(j)
+            ids_possible_states_aux = []
+        for i in ids_possible_states:
+            if self.nodes[i].shape == 'doublecircle':
+                return True
+        return False
+
+    def substrings_accepted(self, chain):
+        accepted_strings = []
+        for i in range(len(chain)+1):
+            for j in range(len(chain)+1):
+                if j >= i:
+                    subchain = chain[i:j]
+                    accepted = self.strings_accepted(subchain)
+                    if accepted and subchain not in accepted_strings:
+                        accepted_strings.append(subchain)
+        for subchain in accepted_strings:
+            print(subchain)
 
     def __create_closures(self, node):
         self.closures[node] = [node]
