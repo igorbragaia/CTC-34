@@ -19,9 +19,10 @@ class Graph:
 
     def get_node(self, id):
         for i in range(len(self.nodes)):
-            if self.nodes[i].id == id:
+            if str(self.nodes[i].id) == str(id):
                 return self.nodes[i]
         print("Node with id = ", id, " not found in function get_node")
+        return None
 
     def add_edge(self, id_1, id_2, edge_name):
         node_1 = self.get_node(id_1)
@@ -31,7 +32,8 @@ class Graph:
 
     def remove_edge(self, id_1, id_2, edge_name):
         if self.check_edge_existence(id_1, id_2, edge_name):
-            self.edges = [edge for edge in self.edges if not (edge.id_1 == id_1 and edge.id_2 == id_2 and edge.label == edge_name)]
+            self.edges = [edge for edge in self.edges if
+                          not (edge.id_1 == id_1 and edge.id_2 == id_2 and edge.label == edge_name)]
             node_1 = self.get_node(id_1)
             node_1.adjs = [node for node in node_1.adjs if not node.id == id_2]
             node_2 = self.get_node(id_2)
@@ -48,9 +50,10 @@ class Graph:
         length = len(self.compacted_edges)
         i = 0
         while i < len(self.compacted_edges):
-            j = i+1
+            j = i + 1
             while j < len(self.compacted_edges):
-                if self.compacted_edges[i].id_1 == self.compacted_edges[j].id_1 and self.compacted_edges[i].id_2 == self.compacted_edges[j].id_2:
+                if self.compacted_edges[i].id_1 == self.compacted_edges[j].id_1 and self.compacted_edges[i].id_2 == \
+                        self.compacted_edges[j].id_2:
                     self.compacted_edges[i].label += "," + self.compacted_edges[j].label
                     length -= 1
                     del self.compacted_edges[j]
@@ -99,9 +102,10 @@ class Graph:
         return False
 
     def substrings_accepted(self, chain):
+        print("Sub-cadeias aceitas:")
         accepted_strings = []
-        for i in range(len(chain)+1):
-            for j in range(len(chain)+1):
+        for i in range(len(chain) + 1):
+            for j in range(len(chain) + 1):
                 if j >= i:
                     subchain = chain[i:j]
                     accepted = self.strings_accepted(subchain)
@@ -146,3 +150,4 @@ class Graph:
         for node1, closure in self.closures.items():
             if len([node for node in closure if self.nodes[node].shape == "doublecircle"]) > 0:
                 self.nodes[node1].shape = "doublecircle"
+
