@@ -11,4 +11,7 @@ class Node:
 
     def print_adjs(self):
         print("On node: ", self.id)
-        print(self.adjs)
+
+        for adj in self.adjs:
+            print("adj = ", adj.id, " with edge = ", adj.edge)
+        print("")
