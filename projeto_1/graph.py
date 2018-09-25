@@ -17,6 +17,10 @@ class Graph:
         self.nodes.append(Node(id, shape=shape))
         return id
 
+    def create_node_with_id(self, id, shape='circle'):
+        self.nodes.append(Node(id, shape=shape))
+        return id
+
     def get_node(self, id):
         for i in range(len(self.nodes)):
             if str(self.nodes[i].id) == str(id):
