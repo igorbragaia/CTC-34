@@ -3,7 +3,7 @@ from nfa_to_nfd_converter import NFAToNFDConverter
 
 if __name__ == "__main__":
     # expr = input("Digite a expressão regular aqui: ")
-    expr = "a*"
+    expr = "ab*b"
     regex_handler = RegexHandler(expr)
 
     while regex_handler.check_running():

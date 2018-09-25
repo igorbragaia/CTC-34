@@ -1,8 +1,13 @@
 digraph {
-	0 [shape=doublecircle]
-	2 [shape=doublecircle]
-	12 [shape=doublecircle]
+	0 [shape=circle]
+	2 [shape=circle]
+	34 [shape=circle]
+	14 [shape=doublecircle]
+	134 [shape=doublecircle]
 	0 -> 2 [label=a]
-	2 -> 12 [label=a]
-	12 -> 12 [label=a]
+	0 -> 34 [label=b]
+	2 -> 14 [label=b]
+	34 -> 134 [label=b]
+	14 -> 134 [label=b]
+	134 -> 134 [label=b]
 }
