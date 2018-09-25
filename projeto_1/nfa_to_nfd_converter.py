@@ -25,12 +25,9 @@ class NFAToNFDConverter:
             node.edges = []
 
         for edge in self.graph.edges:
-            edge.print()
             node_1 = self.graph.get_node(edge.id_1)
             node_2 = self.graph.get_node(edge.id_2)
             node_1.add_adj(node_2, edge.label)
-
-        graph.print_edges()
 
     def remove_duplicate_edges_of_new_graph(self, graph):
         length = len(graph.edges)
@@ -130,9 +127,6 @@ class NFAToNFDConverter:
             for i in range(len(total_edges)):
                 total_edges[i] = sorted(total_edges[i])
 
-            print("currents_node = ", [node.id for node in current_nodes])
-            print("total_edges = ", total_edges)
-
             self.add_estados_to_new_graph([aux_node.id for aux_node in current_nodes], total_edges)
 
             # Putting next element on the queue
@@ -152,7 +146,6 @@ class NFAToNFDConverter:
                     next_to_go.put([self.graph.get_node(est) for est in estado])
 
         new_ids = [node.id for node in self.new_graph.nodes]
-        print(new_ids)
 
         for id in new_ids:
             is_end = False
