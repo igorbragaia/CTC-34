@@ -7,6 +7,7 @@ class NFAToNFDConverter:
     def __init__(self, graph):
         self.graph = graph  # Is the NFA received graph
         self.new_graph = Graph()  # Will be the NFD graph
+        self.alpha = ['a', 'b', 'c']
 
         for edge in self.graph.edges:
             label = edge.label
@@ -67,7 +68,7 @@ class NFAToNFDConverter:
     def add_estados_to_new_graph(self, estados, total_edges):
         new_node = self.insert_nodes_to_new_graph(estados)
 
-        for i in range(len(ascii_lowercase)):
+        for i in range(len(self.alpha)):
             new_adj = self.insert_nodes_to_new_graph(total_edges[i])
             label = chr(i+ord('a'))
 
@@ -88,6 +89,21 @@ class NFAToNFDConverter:
 
         return estados
 
+    def add_null_state_for_new_graph(self):
+        null_id = self.new_graph.create_node_with_id("Ø")
+        for character in self.alpha:
+            self.new_graph.add_edge(null_id, null_id, character)
+
+        for node in self.new_graph.nodes:
+            for character in self.alpha:
+                hasEdge = False
+                for edge in node.edges:
+                    if str(edge) == character:
+                        hasEdge = True
+                        break
+                if not hasEdge:
+                    self.new_graph.add_edge(node.id, null_id, character)
+
     def nfa_to_nfd(self):
         next_to_go = queue.Queue()
         next_to_go.put([self.graph.nodes[0]])
@@ -95,14 +111,12 @@ class NFAToNFDConverter:
 
         while not next_to_go.empty():
             current_nodes = next_to_go.get()
-            total_edges = [[] for _ in range(len(ascii_lowercase))]
+            total_edges = [[] for _ in range(len(self.alpha))]
 
             estados_gone.add(self.convert_estado_to_string([estado.id for estado in current_nodes]))
 
             for current_node in current_nodes:
-                alpha = ['a', 'b', 'c']
-                # for character in ascii_lowercase:
-                for character in alpha:
+                for character in self.alpha:
                     int_equivalent = ord(character)-ord('a')
 
                     for i in range(len(current_node.adjs)):
@@ -122,7 +136,7 @@ class NFAToNFDConverter:
             self.add_estados_to_new_graph([aux_node.id for aux_node in current_nodes], total_edges)
 
             # Putting next element on the queue
-            for i in range(len(ascii_lowercase)):
+            for i in range(len(self.alpha)):
                 if not total_edges[i]:  # If it is empty
                     continue
 
@@ -150,5 +164,7 @@ class NFAToNFDConverter:
                 self.new_graph.get_node(id).is_end_node = True
                 self.new_graph.get_node(id).shape = 'doublecircle'
 
+        self.add_null_state_for_new_graph()
         self.remove_duplicate_edges_of_new_graph(self.new_graph)
+
         return self.new_graph
