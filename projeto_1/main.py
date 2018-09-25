@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # regex_handler.graph.create_output()
 
     regex_handler.graph.epsilon_nfa_to_nfa()
-    regex_handler.graph.create_output()
+    # regex_handler.graph.create_output()
 
     # string = input("Digite a sub-cadeia a ser testada aqui: ")
 
@@ -25,3 +25,5 @@ if __name__ == "__main__":
     nfa_to_nfd_converter = NFAToNFDConverter(regex_handler.graph)
     nfd_graph = nfa_to_nfd_converter.nfa_to_nfd()
 
+    nfd_graph.print_edges()
+    nfd_graph.create_output()

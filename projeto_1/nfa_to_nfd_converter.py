@@ -34,7 +34,8 @@ class NFAToNFDConverter:
 
         return new_node
 
-    def add_node_to_new_graph(self, estados, total_edges):
+    def add_estados_to_new_graph(self, estados, total_edges):
+        print("Estados = ", estados)
         new_node = self.insert_nodes_to_new_graph(estados)
 
         for i in range(len(ascii_lowercase)):
@@ -43,6 +44,9 @@ class NFAToNFDConverter:
 
             if new_adj is not None:
                 new_node.add_adj(new_adj, label)
+                print(new_node)
+                print(new_adj)
+                print("new_node.id = ", new_node.id, ", new adj.id = ", new_adj.id, " and label = ", label)
                 self.new_graph.add_edge(new_node.id, new_adj.id, label)
 
     def convert_estado_to_string(self, estado):
@@ -76,7 +80,7 @@ class NFAToNFDConverter:
             print(total_edges)
             print("")
 
-            self.add_node_to_new_graph(current_nodes, total_edges)
+            self.add_estados_to_new_graph([aux_node.id for aux_node in current_nodes], total_edges)
 
             # Putting next element on the queue
             for i in range(len(ascii_lowercase)):
@@ -94,6 +98,4 @@ class NFAToNFDConverter:
 
                 if not is_already_in_graph:
                     next_to_go.put(estado)
-
-        self.new_graph.print_edges()
-        self.new_graph.create_output()
+        return self.new_graph
