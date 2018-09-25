@@ -17,7 +17,6 @@ class NFAToNFDConverter:
             node_1.add_adj(node_2, edge.label)
 
     def remove_duplicate_edges_of_new_graph(self):
-        edges = list(self.new_graph.edges)
         length = len(self.new_graph.edges)
         i = 0
 
@@ -137,5 +136,5 @@ class NFAToNFDConverter:
         #         if estado_antigo.is_end_node:
         #             nodes.shape = 'doublecircle'
 
-        self.remove_duplicate_edges_of_new_graph()
+        # self.remove_duplicate_edges_of_new_graph()
         return self.new_graph

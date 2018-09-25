@@ -3,7 +3,7 @@ from nfa_to_nfd_converter import NFAToNFDConverter
 
 if __name__ == "__main__":
     # expr = input("Digite a expressão regular aqui: ")
-    expr = "ab*b"
+    expr = "(a(b+c))*"
     regex_handler = RegexHandler(expr)
 
     while regex_handler.check_running():
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # regex_handler.graph.create_output()
 
     regex_handler.graph.epsilon_nfa_to_nfa()
-    # regex_handler.graph.create_output()
+    regex_handler.graph.create_output()
 
     # string = input("Digite a sub-cadeia a ser testada aqui: ")
 
@@ -23,6 +23,6 @@ if __name__ == "__main__":
     # regex_handler.graph.substrings_accepted(string)
 
     nfa_to_nfd_converter = NFAToNFDConverter(regex_handler.graph)
-    nfd_graph = nfa_to_nfd_converter.nfa_to_nfd()
+    # nfd_graph = nfa_to_nfd_converter.nfa_to_nfd()
 
     nfd_graph.create_output()
