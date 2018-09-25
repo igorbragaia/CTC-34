@@ -8,9 +8,6 @@ class NFAToNFDConverter:
         self.graph = graph  # Is the NFA received graph
         self.new_graph = Graph()  # Will be the NFD graph
 
-        for node in self.graph.nodes:
-            node.adjs = []
-
         for edge in self.graph.edges:
             label = edge.label
 
@@ -22,7 +19,11 @@ class NFAToNFDConverter:
 
         self.remove_duplicate_edges_of_new_graph(self.graph)
 
+        for node in self.graph.nodes:
+            node.adjs = []
+
         for edge in self.graph.edges:
+            edge.print()
             node_1 = self.graph.get_node(edge.id_1)
             node_2 = self.graph.get_node(edge.id_2)
             node_1.add_adj(node_2, edge.label)
