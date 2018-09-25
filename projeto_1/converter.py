@@ -13,7 +13,6 @@ class Converter:
             node.adjs = []
 
         for edge in self.graph.edges:
-            edge.print()
             node_1 = self.graph.get_node(edge.id_1)
             node_2 = self.graph.get_node(edge.id_2)
             node_1.add_adj(node_2, edge.label)
@@ -51,7 +50,8 @@ class Converter:
                             if adj.id not in total_edges[int_equivalent]:
                                 total_edges[int_equivalent].append(adj.id)
 
-                # for i in range(len(total_edges)):
-                #     total_edges[i] = sorted(total_edges[i])
+                for i in range(len(total_edges)):
+                    total_edges[i] = sorted(total_edges[i])
 
                 print(total_edges)
+                print("")
