@@ -21,6 +21,7 @@ class NFAToNFDConverter:
 
         for node in self.graph.nodes:
             node.adjs = []
+            node.edges = []
 
         for edge in self.graph.edges:
             edge.print()
@@ -104,8 +105,11 @@ class NFAToNFDConverter:
                 for character in alpha:
                     int_equivalent = ord(character)-ord('a')
 
-                    for adj in current_node.adjs:
-                        if adj.edge == character:
+                    for i in range(len(current_node.adjs)):
+                        adj = current_node.adjs[i]
+                        edge = current_node.edges[i]
+
+                        if edge == character:
                             if adj.id not in total_edges[int_equivalent]:
                                 total_edges[int_equivalent].append(adj.id)
 

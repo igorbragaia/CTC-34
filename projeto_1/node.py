@@ -2,7 +2,7 @@ class Node:
     def __init__(self, id, shape='circle'):
         self.id = id
         self.adjs = []
-        self.edge = None
+        self.edges = []
         self.shape = shape
         self.is_end_node = False
         if shape == 'doublecircle':
@@ -10,7 +10,7 @@ class Node:
 
     def add_adj(self, other_node, edge_name):
         self.adjs.append(other_node)
-        self.adjs[-1].edge = edge_name
+        self.edges.append(edge_name)
 
     def print_adjs(self):
         print("On node: ", self.id)

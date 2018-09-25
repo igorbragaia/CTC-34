@@ -19,10 +19,10 @@ if __name__ == "__main__":
 
     epsilon_nfa_to_nfa_converter = EpsilonNFAToNFAConverter(regex_handler.graph)
     nfa_graph = epsilon_nfa_to_nfa_converter.epsilon_nfa_to_nfa()
-    nfa_graph.create_output()
+    # nfa_graph.create_output()
 
-    SubstringsAccepted(nfa_graph)
+    # SubstringsAccepted(nfa_graph)
 
-    nfa_to_nfd_converter = NFAToNFDConverter(regex_handler.graph)
+    nfa_to_nfd_converter = NFAToNFDConverter(nfa_graph)
     nfd_graph = nfa_to_nfd_converter.nfa_to_nfd()
-    # nfd_graph.create_output()
+    nfd_graph.create_output()
