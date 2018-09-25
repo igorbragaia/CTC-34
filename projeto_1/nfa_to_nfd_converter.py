@@ -35,7 +35,6 @@ class NFAToNFDConverter:
         return new_node
 
     def add_estados_to_new_graph(self, estados, total_edges):
-        print("Estados = ", estados)
         new_node = self.insert_nodes_to_new_graph(estados)
 
         for i in range(len(ascii_lowercase)):
@@ -44,9 +43,6 @@ class NFAToNFDConverter:
 
             if new_adj is not None:
                 new_node.add_adj(new_adj, label)
-                print(new_node)
-                print(new_adj)
-                print("new_node.id = ", new_node.id, ", new adj.id = ", new_adj.id, " and label = ", label)
                 self.new_graph.add_edge(new_node.id, new_adj.id, label)
 
     def convert_estado_to_string(self, estado):
@@ -55,30 +51,41 @@ class NFAToNFDConverter:
             estado_str += str(node)
         return estado_str
 
+    def convert_string_to_estados(self, str):
+        estados = []
+        for c in str:
+            estados.append(self.graph.get_node(c))
+        print("")
+        print("Received str = ", str)
+        print("Return estados = ", [estado.id for estado in estados])
+        print("")
+
+        return estados
+
     def nfa_to_nfd(self):
         next_to_go = queue.Queue()
         next_to_go.put([self.graph.nodes[0]])
+        estados_gone = set()
 
         while not next_to_go.empty():
             current_nodes = next_to_go.get()
             total_edges = [[] for _ in range(len(ascii_lowercase))]
 
-            for current_node in current_nodes:
-                print("current_node.id = ", current_node.id)
+            estados_gone.add(self.convert_estado_to_string([estado.id for estado in current_nodes]))
+            # print("Estados gone = ", [estado_gone.id for estado_gone in estados_gone])
+            print("Estados gone = ", estados_gone)
 
+            for current_node in current_nodes:
                 for character in ascii_lowercase:
                     int_equivalent = ord(character)-ord('a')
 
                     for adj in current_node.adjs:
                         if adj.edge == character:
-                            print("char = " + character + ", adj.id = " + str(adj.id))
                             if adj.id not in total_edges[int_equivalent]:
                                 total_edges[int_equivalent].append(adj.id)
 
             for i in range(len(total_edges)):
                 total_edges[i] = sorted(total_edges[i])
-            print(total_edges)
-            print("")
 
             self.add_estados_to_new_graph([aux_node.id for aux_node in current_nodes], total_edges)
 
@@ -88,14 +95,15 @@ class NFAToNFDConverter:
                     continue
 
                 estado = total_edges[i]
-                estado_str = self.convert_estado_to_string(estado)
+                print("total_edges = ", total_edges)
+                novo_estado_str = self.convert_estado_to_string(estado)
 
                 is_already_in_graph = False
-                for node in self.new_graph.nodes:
-                    if str(node.id) == str(estado_str):
+                for estados_str in estados_gone:
+                    if str(estados_str) == str(novo_estado_str):
                         is_already_in_graph = True
                         break
-
                 if not is_already_in_graph:
-                    next_to_go.put(estado)
+                    next_to_go.put([self.graph.get_node(est) for est in estado])
+
         return self.new_graph
