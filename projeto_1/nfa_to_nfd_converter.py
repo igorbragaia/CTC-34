@@ -55,10 +55,6 @@ class NFAToNFDConverter:
         estados = []
         for c in str:
             estados.append(self.graph.get_node(c))
-        print("")
-        print("Received str = ", str)
-        print("Return estados = ", [estado.id for estado in estados])
-        print("")
 
         return estados
 
@@ -72,8 +68,6 @@ class NFAToNFDConverter:
             total_edges = [[] for _ in range(len(ascii_lowercase))]
 
             estados_gone.add(self.convert_estado_to_string([estado.id for estado in current_nodes]))
-            # print("Estados gone = ", [estado_gone.id for estado_gone in estados_gone])
-            print("Estados gone = ", estados_gone)
 
             for current_node in current_nodes:
                 for character in ascii_lowercase:
@@ -95,7 +89,6 @@ class NFAToNFDConverter:
                     continue
 
                 estado = total_edges[i]
-                print("total_edges = ", total_edges)
                 novo_estado_str = self.convert_estado_to_string(estado)
 
                 is_already_in_graph = False
@@ -105,5 +98,26 @@ class NFAToNFDConverter:
                         break
                 if not is_already_in_graph:
                     next_to_go.put([self.graph.get_node(est) for est in estado])
+
+        print("New_nodes = ", [node.id for node in self.new_graph.nodes])
+
+        new_ids = [node.id for node in self.new_graph.nodes]
+
+        for id in new_ids:
+            # print(id)
+            is_end = False
+            for node in self.convert_string_to_estados(id):
+                print(node.id)
+                if node.is_end_node:
+                    is_end = True
+                    break
+            self.new_graph.get_node(id).is_end_node = True
+            self.new_graph.get_node(id).shape = 'doublecircle'
+
+        # for nodes in self.new_graph.nodes:
+        #     for node in nodes.id:
+        #         estado_antigo = self.convert_string_to_estados(node)[0]
+        #         if estado_antigo.is_end_node:
+        #             nodes.shape = 'doublecircle'
 
         return self.new_graph

@@ -4,6 +4,9 @@ class Node:
         self.adjs = []
         self.edge = None
         self.shape = shape
+        self.is_end_node = False
+        if shape == 'doublecircle':
+            self.is_end_node = True
 
     def add_adj(self, other_node, edge_name):
         self.adjs.append(other_node)
