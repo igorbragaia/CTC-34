@@ -3,7 +3,7 @@ from string import ascii_lowercase
 import queue
 
 
-class Converter:
+class NFAToNFDConverter:
     def __init__(self, graph):
         self.graph = graph  # Is the NFA received graph
         self.new_graph = Graph()  # Will be the NFD graph

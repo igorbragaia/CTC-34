@@ -1,5 +1,5 @@
 from regex_handler import RegexHandler
-from converter import Converter
+from nfa_to_nfd_converter import NFAToNFDConverter
 
 if __name__ == "__main__":
     # expr = input("Digite a expressão regular aqui: ")
@@ -22,6 +22,6 @@ if __name__ == "__main__":
     # string = "abba"
     # regex_handler.graph.substrings_accepted(string)
 
-    converter = Converter(regex_handler.graph)
-    converter.nfa_to_nfd()
+    nfa_to_nfd_converter = NFAToNFDConverter(regex_handler.graph)
+    nfd_graph = nfa_to_nfd_converter.nfa_to_nfd()
 
