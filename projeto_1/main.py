@@ -23,6 +23,6 @@ if __name__ == "__main__":
     # regex_handler.graph.substrings_accepted(string)
 
     nfa_to_nfd_converter = NFAToNFDConverter(regex_handler.graph)
-    # nfd_graph = nfa_to_nfd_converter.nfa_to_nfd()
+    nfd_graph = nfa_to_nfd_converter.nfa_to_nfd()
 
-    nfd_graph.create_output()
+    # nfd_graph.create_output()

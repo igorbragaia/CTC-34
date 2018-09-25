@@ -11,6 +11,8 @@ class NFAToNFDConverter:
         for node in self.graph.nodes:
             node.adjs = []
 
+        graph.print_edges()
+
         for edge in self.graph.edges:
             node_1 = self.graph.get_node(edge.id_1)
             node_2 = self.graph.get_node(edge.id_2)
@@ -85,16 +87,22 @@ class NFAToNFDConverter:
             estados_gone.add(self.convert_estado_to_string([estado.id for estado in current_nodes]))
 
             for current_node in current_nodes:
-                for character in ascii_lowercase:
+                alpha = ['a', 'b', 'c']
+                # for character in ascii_lowercase:
+                for character in alpha:
                     int_equivalent = ord(character)-ord('a')
 
                     for adj in current_node.adjs:
+                        print(adj.edge)
                         if adj.edge == character:
                             if adj.id not in total_edges[int_equivalent]:
                                 total_edges[int_equivalent].append(adj.id)
 
             for i in range(len(total_edges)):
                 total_edges[i] = sorted(total_edges[i])
+
+            print("currents_node = ", [node.id for node in current_nodes])
+            print("total_edges = ", total_edges)
 
             self.add_estados_to_new_graph([aux_node.id for aux_node in current_nodes], total_edges)
 
@@ -114,27 +122,17 @@ class NFAToNFDConverter:
                 if not is_already_in_graph:
                     next_to_go.put([self.graph.get_node(est) for est in estado])
 
-        print("New_nodes = ", [node.id for node in self.new_graph.nodes])
-
         new_ids = [node.id for node in self.new_graph.nodes]
 
         for id in new_ids:
-            # print(id)
             is_end = False
             for node in self.convert_string_to_estados(id):
-                print(node.id)
                 if node.is_end_node:
                     is_end = True
                     break
             if is_end:
                 self.new_graph.get_node(id).is_end_node = True
                 self.new_graph.get_node(id).shape = 'doublecircle'
-
-        # for nodes in self.new_graph.nodes:
-        #     for node in nodes.id:
-        #         estado_antigo = self.convert_string_to_estados(node)[0]
-        #         if estado_antigo.is_end_node:
-        #             nodes.shape = 'doublecircle'
 
         # self.remove_duplicate_edges_of_new_graph()
         return self.new_graph
