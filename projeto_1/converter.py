@@ -1,5 +1,7 @@
 from graph import Graph
 from collections import deque
+from string import ascii_lowercase
+import queue
 
 
 class Converter:
@@ -8,55 +10,46 @@ class Converter:
         self.new_graph = Graph()  # Will be the NFD graph
         pass
 
-    def getPossivelEstado(self, proxEstado):
-        possivelEstado = ""
+    def getPossivelEstado(self, proxEstado, current_node):
+        pass
 
-        print("")
-        print("proxEstado = " + str(proxEstado))
+    def iterate_throught_the_alphabet(self, possivelEstado, node, current_node):
+        pass
 
-        for i in range(len(proxEstado)):  # Iterating throught the ids of proxEstado
-            print("i = ", str(i))
-            print(proxEstado[i])
-
-            node = self.graph.get_node(proxEstado[i])
-            if node is None:
-                continue
-
-            for c in range(3):
-                print("On c = ", str(c))
-
-                for adj in node.adjs:
-                    edge = adj.edge
-
-                    if edge == c:
-                        print("In the if")
-                        possivelEstado += str(c)
-
-            possivelEstado = ''.join(sorted(possivelEstado))
-
-            print("possivelEstado = ", str(possivelEstado))
-
-            return possivelEstado
-        return None
+    def get_estados_from_string(self, estados_str):
+        estados = []
+        for i in range(len(estados_str)):
+            c = str(estados_str)[i]
+            estados.append(self.graph.get_node(c))
+        return estados
 
     def nfa_to_nfd(self):
-        novosEstados = set()
-        proxEstados = deque([str(self.graph.nodes[0].id)])
+        next_to_go = queue.Queue()
+        next_to_go.put([self.graph.nodes[5]])
 
-        self.graph.create_output()
+        while not next_to_go.empty():
+            current_nodes = next_to_go.get()
+            total_edges = [[] for _ in range(len(ascii_lowercase))]
+            print(total_edges)
 
-        while proxEstados:  # While is not empty
-            proxEstado = proxEstados[-1]
-            proxEstados.popleft()
-            novosEstados.add(proxEstado)
+            for current_node in current_nodes:
+                print("current_node.id = ", current_node.id)
 
-            possivelEstado = self.getPossivelEstado(proxEstado)
+                for adj in current_node.adjs:
+                    print(adj.id)
 
-            if possivelEstado not in novosEstados and possivelEstado not in proxEstados \
-                    and possivelEstado is not None and possivelEstado != '':
-                proxEstados.appendleft(possivelEstado)
+                for character in ascii_lowercase:
+                    int_equivalent = ord(character)-ord('a')
 
-        print("")
-        print("")
-        print("Novos estados:")
-        print(novosEstados)
+                    for adj in current_node.adjs:
+                        if adj.edge == character:
+                            print("c = " + character + ", adj.id = " + str(adj.id))
+                            if adj.id not in total_edges[int_equivalent]:
+                                print("int_equivalent = " + str(int_equivalent))
+                                print(total_edges[int_equivalent])
+                                total_edges[int_equivalent].append(adj.id)
+
+                # for i in range(len(total_edges)):
+                #     total_edges[i] = sorted(total_edges[i])
+
+                print(total_edges)

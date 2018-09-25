@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # regex_handler.graph.create_output()
 
     regex_handler.graph.epsilon_nfa_to_nfa()
-    # regex_handler.graph.create_output()
+    regex_handler.graph.create_output()
 
     # string = input("Digite a sub-cadeia a ser testada aqui: ")
 
