@@ -154,4 +154,4 @@ class Graph:
         for node1, closure in self.closures.items():
             if len([node for node in closure if self.nodes[node].shape == "doublecircle"]) > 0:
                 self.nodes[node1].shape = "doublecircle"
-
+                self.nodes[node1].is_end_node = True

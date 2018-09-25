@@ -11,24 +11,35 @@ class NFAToNFDConverter:
         for node in self.graph.nodes:
             node.adjs = []
 
-        graph.print_edges()
+        for edge in self.graph.edges:
+            label = edge.label
+
+            if len(label) > 1:
+                strs = label.split(',')
+                for str in strs:
+                    self.graph.add_edge(edge.id_1, edge.id_2, str)
+                edge.label = strs[0]
+
+        self.remove_duplicate_edges_of_new_graph(self.graph)
 
         for edge in self.graph.edges:
             node_1 = self.graph.get_node(edge.id_1)
             node_2 = self.graph.get_node(edge.id_2)
             node_1.add_adj(node_2, edge.label)
 
-    def remove_duplicate_edges_of_new_graph(self):
-        length = len(self.new_graph.edges)
+        graph.print_edges()
+
+    def remove_duplicate_edges_of_new_graph(self, graph):
+        length = len(graph.edges)
         i = 0
 
-        while i < len(self.new_graph.edges):
+        while i < len(graph.edges):
             j = i + 1
-            while j < len(self.new_graph.edges):
-                if self.new_graph.edges[i].id_1 == self.new_graph.edges[j].id_1 and self.new_graph.edges[i].id_2 == \
-                        self.new_graph.edges[j].id_2 and str(self.new_graph.edges[i].label) == str(self.new_graph.edges[j].label):
+            while j < len(graph.edges):
+                if graph.edges[i].id_1 == graph.edges[j].id_1 and graph.edges[i].id_2 == \
+                        graph.edges[j].id_2 and str(graph.edges[i].label) == str(graph.edges[j].label):
                     length -= 1
-                    del self.new_graph.edges[j]
+                    del graph.edges[j]
                 else:
                     j += 1
             i += 1
@@ -93,7 +104,6 @@ class NFAToNFDConverter:
                     int_equivalent = ord(character)-ord('a')
 
                     for adj in current_node.adjs:
-                        print(adj.edge)
                         if adj.edge == character:
                             if adj.id not in total_edges[int_equivalent]:
                                 total_edges[int_equivalent].append(adj.id)
@@ -123,6 +133,7 @@ class NFAToNFDConverter:
                     next_to_go.put([self.graph.get_node(est) for est in estado])
 
         new_ids = [node.id for node in self.new_graph.nodes]
+        print(new_ids)
 
         for id in new_ids:
             is_end = False
@@ -134,5 +145,5 @@ class NFAToNFDConverter:
                 self.new_graph.get_node(id).is_end_node = True
                 self.new_graph.get_node(id).shape = 'doublecircle'
 
-        # self.remove_duplicate_edges_of_new_graph()
+        self.remove_duplicate_edges_of_new_graph(self.new_graph)
         return self.new_graph
