@@ -80,9 +80,8 @@ class StateReducer:
         edge_end_1 = self.get_edges_that_end_in_node(node_1)
         edge_end_2 = self.get_edges_that_end_in_node(node_2)
 
-        for edge in edge_begin_2:
-            self.graph.remove_edge(edge.id_1, edge.id_2, edge.label)
-            pass
+        for edge in edge_end_2:
+            self.graph.add_edge(edge.id_1, node_1.id, edge.label)
 
         self.graph.remove_node(node_2.id)
 

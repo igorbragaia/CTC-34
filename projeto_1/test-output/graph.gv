@@ -1,13 +1,7 @@
 digraph {
 	0 [shape=doublecircle]
-	2 [shape=doublecircle]
-	12 [shape=doublecircle]
 	"Ø" [shape=circle]
-	0 -> 2 [label=a]
-	2 -> 12 [label=a]
-	12 -> 12 [label=a]
 	"Ø" -> "Ø" [label="a,b,c"]
 	0 -> "Ø" [label="b,c"]
-	2 -> "Ø" [label="b,c"]
-	12 -> "Ø" [label="b,c"]
+	0 -> 0 [label=a]
 }

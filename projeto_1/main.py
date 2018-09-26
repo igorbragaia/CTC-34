@@ -30,4 +30,4 @@ if __name__ == "__main__":
 
     state_reducer = StateReducer(nfd_graph)
     reduced_graph = state_reducer.reduce_graph()
-    # reduced_graph.create_output()
+    reduced_graph.create_output()
