@@ -9,16 +9,32 @@ class NFAToNFDConverter:
         self.new_graph = Graph()  # Will be the NFD graph
         self.alpha = ['a', 'b', 'c']
 
+        self.remove_duplicate_edges_of_new_graph(self.graph)
+
+    def remove_duplicate_edges_of_new_graph(self, graph):
         for edge in self.graph.edges:
             label = edge.label
 
             if len(label) > 1:
                 strs = label.split(',')
-                for str in strs:
-                    self.graph.add_edge(edge.id_1, edge.id_2, str)
+                for s in strs:
+                    self.graph.add_edge(edge.id_1, edge.id_2, s)
                 edge.label = strs[0]
 
-        self.remove_duplicate_edges_of_new_graph(self.graph)
+        length = len(graph.edges)
+        i = 0
+
+        while i < len(graph.edges):
+            j = i + 1
+            while j < len(graph.edges):
+                if str(graph.edges[i].id_1) == str(graph.edges[j].id_1) and str(graph.edges[i].id_2) == \
+                        str(graph.edges[j].id_2) and str(graph.edges[i].label) == str(graph.edges[j].label):
+                    length -= 1
+                    print("Removing")
+                    del graph.edges[j]
+                else:
+                    j += 1
+            i += 1
 
         for node in self.graph.nodes:
             node.adjs = []
@@ -28,21 +44,6 @@ class NFAToNFDConverter:
             node_1 = self.graph.get_node(edge.id_1)
             node_2 = self.graph.get_node(edge.id_2)
             node_1.add_adj(node_2, edge.label)
-
-    def remove_duplicate_edges_of_new_graph(self, graph):
-        length = len(graph.edges)
-        i = 0
-
-        while i < len(graph.edges):
-            j = i + 1
-            while j < len(graph.edges):
-                if graph.edges[i].id_1 == graph.edges[j].id_1 and graph.edges[i].id_2 == \
-                        graph.edges[j].id_2 and str(graph.edges[i].label) == str(graph.edges[j].label):
-                    length -= 1
-                    del graph.edges[j]
-                else:
-                    j += 1
-            i += 1
 
     def is_node_id_in_new_graph(self, node_id):
         is_in_graph = False
