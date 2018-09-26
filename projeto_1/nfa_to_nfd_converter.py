@@ -108,6 +108,14 @@ class NFAToNFDConverter:
                 if not hasEdge:
                     self.new_graph.add_edge(node.id, null_id, character)
 
+        has_at_least_one_edge = False
+        for edge in self.new_graph.edges:
+            if (edge.id_1 == null_id and edge.id_2 != null_id) or (edge.id_2 == null_id and edge.id_1 != null_id):
+                has_at_least_one_edge = True
+                break
+        if not has_at_least_one_edge:
+            self.new_graph.remove_node(null_id)
+
     def nfa_to_nfd(self):
         next_to_go = queue.Queue()
         next_to_go.put([self.graph.nodes[0]])
