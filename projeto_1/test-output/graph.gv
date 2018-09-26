@@ -1,7 +1,10 @@
 digraph {
 	0 [shape=doublecircle]
+	3 [shape=circle]
 	"Ø" [shape=circle]
+	0 -> 3 [label=a]
 	"Ø" -> "Ø" [label="a,b,c"]
 	0 -> "Ø" [label="b,c"]
-	0 -> 0 [label=a]
+	3 -> "Ø" [label=a]
+	3 -> 0 [label="b,c"]
 }

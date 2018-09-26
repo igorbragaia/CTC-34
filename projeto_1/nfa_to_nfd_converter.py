@@ -7,7 +7,13 @@ class NFAToNFDConverter:
     def __init__(self, graph):
         self.graph = graph  # Is the NFA received graph
         self.new_graph = Graph()  # Will be the NFD graph
-        self.alpha = ['a', 'b', 'c']
+        self.alpha = []
+
+        for edge in graph.edges:
+            if edge.label not in self.alpha:
+                self.alpha.append(edge.label)
+
+        # self.alpha = ['a', 'b', 'c']
 
         self.remove_duplicate_edges_of_new_graph(self.graph)
 

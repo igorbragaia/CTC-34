@@ -33,9 +33,6 @@ class StateReducer:
         return equal
 
     def are_end_two_edges_equal(self, edges_1, edges_2):
-        # if len(edges_1) != len(edges_2):
-        #     return False
-
         equal = True
         for edge_1 in edges_1:
             edge_equal = False
@@ -72,7 +69,7 @@ class StateReducer:
         print("end_equal = ", end_equal)
         print("")
         print("")
-        return begin_equal and end_equal
+        return begin_equal and end_equal and node_1.is_end_node == node_2.is_end_node
 
     def merge_nodes(self, node_1, node_2):
         edge_begin_1 = self.get_edges_that_begin_in_node(node_1)
