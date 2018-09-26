@@ -13,7 +13,7 @@ class NFAToNFDConverter:
             if edge.label not in self.alpha:
                 self.alpha.append(edge.label)
 
-        # self.alpha = ['a', 'b', 'c']
+        self.alpha = sorted(self.alpha)
 
         self.remove_duplicate_edges_of_new_graph(self.graph)
 
