@@ -43,6 +43,26 @@ class Graph:
             node_2 = self.get_node(id_2)
             node_2.adjs = [node for node in node_2.adjs if not node.id == id_1]
 
+    def remove_node(self, node_id):
+        for i in range(len(self.nodes)):
+            node = self.nodes[i]
+
+            if str(node.id) == str(node_id):
+                for adj in node.adjs:
+                    
+
+
+                del self.nodes[i]
+
+
+        if self.check_edge_existence(id_1, id_2, edge_name):
+            self.edges = [edge for edge in self.edges if
+                          not (edge.id_1 == id_1 and edge.id_2 == id_2 and edge.label == edge_name)]
+            node_1 = self.get_node(id_1)
+            node_1.adjs = [node for node in node_1.adjs if not node.id == id_2]
+            node_2 = self.get_node(id_2)
+            node_2.adjs = [node for node in node_2.adjs if not node.id == id_1]
+
     def check_edge_existence(self, id_1, id_2, edge_name):
         for edge in self.edges:
             if edge.id_1 == id_1 and edge.id_2 == id_2 and edge.label == edge_name:
