@@ -72,9 +72,6 @@ class StateReducer:
         return begin_equal and end_equal and node_1.is_end_node == node_2.is_end_node
 
     def merge_nodes(self, node_1, node_2):
-        edge_begin_1 = self.get_edges_that_begin_in_node(node_1)
-        edge_begin_2 = self.get_edges_that_begin_in_node(node_2)
-        edge_end_1 = self.get_edges_that_end_in_node(node_1)
         edge_end_2 = self.get_edges_that_end_in_node(node_2)
 
         for edge in edge_end_2:
@@ -82,7 +79,17 @@ class StateReducer:
 
         self.graph.remove_node(node_2.id)
 
-        pass
+    def DFS_of_end_nodes(self, current_node_id, has_gone):
+        # has_at_least_one_diff = False
+        has_gone.append(current_node_id)
+
+        for i in range(len(self.graph.get_node(current_node_id).adjs)):
+            adj = self.graph.get_node(current_node_id).adjs[i]
+            edge_name = self.graph.get_node(current_node_id).edges[i]
+
+            if adj.is_end_node and adj.id not in has_gone:
+                # has_at_least_one_diff = True
+                self.DFS_of_end_nodes(adj.id, has_gone)
 
     def reduce_graph(self):
         has_at_least_one_change = True
@@ -105,5 +112,16 @@ class StateReducer:
                         break
                 if has_at_least_one_change:
                     break
+
+        has_gone = []
+        for node in self.graph.nodes:
+            if node.is_end_node:
+                self.DFS_of_end_nodes(node.id, has_gone)
+                break
+
+        has_gone = ["123456", "1356", "12356"]
+        while len(has_gone) > 1:
+            self.merge_nodes(self.graph.get_node(has_gone[0]), self.graph.get_node(has_gone[1]))
+            del has_gone[1]
 
         return self.graph
