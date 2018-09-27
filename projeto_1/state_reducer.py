@@ -1,6 +1,8 @@
 class StateReducer:
     def __init__(self, graph):
         self.graph = graph
+        self.has_gone = []
+        self.should_break = False
 
     def get_edges_that_begin_in_node(self, node):
         edges = []
@@ -79,17 +81,38 @@ class StateReducer:
 
         self.graph.remove_node(node_2.id)
 
-    def DFS_of_end_nodes(self, current_node_id, has_gone):
-        # has_at_least_one_diff = False
-        has_gone.append(current_node_id)
+    def DFS_of_end_nodes(self, current_node_id):
+        if self.should_break:
+            return
+        has_at_least_one_diff = False
+        self.has_gone.append(current_node_id)
+        print("Called DFS with current_node_id = ", str(current_node_id))
+        print("has_gone = ", self.has_gone)
 
         for i in range(len(self.graph.get_node(current_node_id).adjs)):
             adj = self.graph.get_node(current_node_id).adjs[i]
-            edge_name = self.graph.get_node(current_node_id).edges[i]
 
-            if adj.is_end_node and adj.id not in has_gone:
-                # has_at_least_one_diff = True
-                self.DFS_of_end_nodes(adj.id, has_gone)
+            if adj.is_end_node and adj.id not in self.has_gone:
+                has_at_least_one_diff = True
+                self.DFS_of_end_nodes(adj.id)
+
+        is_a_circle = False
+        if not has_at_least_one_diff:
+            self.should_break = True
+            print("In the not has_at_least_one_diff if, with current_node_id = ", str(current_node_id))
+            print([node_id for node_id in self.has_gone])
+            for adj in self.graph.get_node(current_node_id).adjs:
+                print("adj.id = ", adj.id)
+                print(self.has_gone)
+                print(self.has_gone[:-1])
+                if adj.id in self.has_gone[:-1]:
+                    print("Entrou")
+                    is_a_circle = True
+                    break
+            if not is_a_circle:
+                print("Is not a circle")
+                self.has_gone = []
+        return
 
     def reduce_graph(self):
         has_at_least_one_change = True
@@ -113,15 +136,14 @@ class StateReducer:
                 if has_at_least_one_change:
                     break
 
-        has_gone = []
         for node in self.graph.nodes:
             if node.is_end_node:
-                self.DFS_of_end_nodes(node.id, has_gone)
+                self.DFS_of_end_nodes(node.id)
                 break
 
-        has_gone = ["123456", "1356", "12356"]
-        while len(has_gone) > 1:
-            self.merge_nodes(self.graph.get_node(has_gone[0]), self.graph.get_node(has_gone[1]))
-            del has_gone[1]
+        print(self.has_gone)
+        while len(self.has_gone) > 1:
+            self.merge_nodes(self.graph.get_node(self.has_gone[0]), self.graph.get_node(self.has_gone[1]))
+            del self.has_gone[1]
 
         return self.graph
