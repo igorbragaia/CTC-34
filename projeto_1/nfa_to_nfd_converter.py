@@ -36,7 +36,6 @@ class NFAToNFDConverter:
                 if str(graph.edges[i].id_1) == str(graph.edges[j].id_1) and str(graph.edges[i].id_2) == \
                         str(graph.edges[j].id_2) and str(graph.edges[i].label) == str(graph.edges[j].label):
                     length -= 1
-                    print("Removing")
                     del graph.edges[j]
                 else:
                     j += 1
