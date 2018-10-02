@@ -1,5 +1,6 @@
 class Node:
     def __init__(self, id, shape='circle'):
+        self.initial = False
         self.id = id
         self.adjs = []
         self.edges = []

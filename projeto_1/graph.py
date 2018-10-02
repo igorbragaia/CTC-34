@@ -95,3 +95,44 @@ class Graph:
             print(self.edges[i].id_1, " ", self.edges[i].id_2, ": ", self.edges[i].label)
         print("")
 
+    def hash_ids(self):
+        hash = {}
+        for node in self.nodes:
+            hash[node.id] = uuid.uuid1()
+        new_nodes = []
+        new_edges = []
+        for node in self.nodes:
+            if node.id == '0':
+                node.initial = True
+            node.id = hash[node.id]
+            new_nodes.append(node)
+        for edge in self.edges:
+            edge.id_1 = hash[edge.id_1]
+            edge.id_2 = hash[edge.id_2]
+            new_edges.append(edge)
+        self.nodes = new_nodes
+        self.edges = new_edges
+
+    def revert_hash(self):
+        count = 1
+        hash = {}
+        hash['0'] = 0
+        for node in self.nodes:
+            if str(node.id) != '0':
+                hash[str(node.id)] = count
+            count += 1
+        new_nodes = []
+        new_edges = []
+        for node in self.nodes:
+            if node.id == 0:
+                node.initial = True
+            else:
+                node.initial = False
+                node.id = hash[str(node.id)]
+            new_nodes.append(node)
+        for edge in self.edges:
+            edge.id_1 = hash[str(edge.id_1)]
+            edge.id_2 = hash[str(edge.id_2)]
+            new_edges.append(edge)
+        self.nodes = new_nodes
+        self.edges = new_edges

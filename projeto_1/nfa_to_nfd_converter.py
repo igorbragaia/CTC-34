@@ -115,9 +115,11 @@ class NFAToNFDConverter:
         if not has_at_least_one_edge:
             self.new_graph.remove_node(null_id)
 
-    def nfa_to_nfd(self):
+    def nfa_to_nfd(self, id):
         next_to_go = queue.Queue()
-        next_to_go.put([self.graph.nodes[0]])
+        nex_node = [node for node in self.graph.nodes if node.id == id]
+        #next_to_go.put([self.graph.nodes[0]])
+        next_to_go.put(nex_node)
         estados_gone = set()
 
         while not next_to_go.empty():

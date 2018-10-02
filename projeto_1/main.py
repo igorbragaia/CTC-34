@@ -6,8 +6,8 @@ from substrings_accepted import SubstringsAccepted
 from state_reducer import StateReducer
 
 if __name__ == "__main__":
-    # expr = input("Digite a expressão regular aqui: ")
-    expr = "(a+b)*bb(b+a)*"
+    expr = input("Digite a expressão regular aqui: ")
+    #expr = "(a+b)*bb(b+a)*"
     regex_handler = RegexHandler(expr)
 
     while regex_handler.check_running():

@@ -6,8 +6,8 @@ class EpsilonNFAToNFAConverter:
         self.graph = graph  # Is the NFA received graph
         self.closures = {}
 
-    def epsilon_nfa_to_nfa(self):
-        self.__create_closures(0)
+    def epsilon_nfa_to_nfa(self, id=0):
+        self.__create_closures(id)
         self.__rewrite_graph()
         return self.graph
 
