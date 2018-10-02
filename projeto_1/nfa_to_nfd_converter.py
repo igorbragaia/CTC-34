@@ -164,6 +164,7 @@ class NFAToNFDConverter:
         new_ids = [node.id for node in self.new_graph.nodes]
 
         for id in new_ids:
+
             is_end = False
             for node in self.convert_string_to_estados(id):
                 if node.is_end_node:

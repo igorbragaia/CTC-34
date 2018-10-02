@@ -48,3 +48,6 @@ class EpsilonNFAToNFAConverter:
             if len([node for node in closure if self.graph.nodes[node].shape == "doublecircle"]) > 0:
                 self.graph.nodes[node1].shape = "doublecircle"
                 self.graph.nodes[node1].is_end_node = True
+            else:
+                self.graph.nodes[node1].shape = "circle"
+                self.graph.nodes[node1].is_end_node = False

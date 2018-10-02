@@ -46,7 +46,7 @@ def union_automata(reduced_graph1, reduced_graph_2):
     for edge in reduced_graph_2.edges:
         final_automata.add_edge(node_id2[edge.id_1], node_id2[edge.id_2], edge.label)
 
-    id_initial = final_automata.create_node(shape='doublecircle')
+    id_initial = final_automata.create_node(shape='circle')
     final_automata.add_edge(id_initial, 0, '&')
     final_automata.add_edge(id_initial, node_id2[0], '&')
 
@@ -71,8 +71,10 @@ def complement_automata(graph):
     for node in graph.nodes:
         if node.shape == 'circle':
             node.shape = 'doublecircle'
+            node.is_end_node = True
         else:
             node.shape = 'circle'
+            node.is_end_node = False
         new_nodes.append(node)
     graph.nodes = new_nodes
     return graph
@@ -93,6 +95,8 @@ if __name__ == "__main__":
     automata1 = create_automata_from_regex("(aa)*")
     automata2 = create_automata_from_regex("(aaa)*")
 
-    final_automata = union_automata(automata1, automata2)
+    #final_automata = union_automata(automata1, automata2)
+
+    final_automata = intersect_automata(automata1, automata2)
 
     final_automata.create_output()
