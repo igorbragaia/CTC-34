@@ -1,15 +1,11 @@
 from regex_handler import RegexHandler
 from nfa_to_nfd_converter import NFAToNFDConverter
 from epsilon_nfa_to_nfa_converter import EpsilonNFAToNFAConverter
-from substrings_accepted import SubstringsAccepted
-from substrings_accepted import SubstringsAccepted
 from state_reducer import StateReducer
-from edge import Edge
-from node import Node
 
 
-def create_automata_from_regex(expr):
-    #expr1 = input("Digite a expressão regular 1 aqui: ")
+def create_automata_from_regex(min_state=False):
+    expr = input("Digite a expressão regular aqui: ")
     regex_handler = RegexHandler(expr)
 
     while regex_handler.check_running():
@@ -18,23 +14,25 @@ def create_automata_from_regex(expr):
         regex_handler.check_kleene()
         regex_handler.check_parentheses()
 
-    #regex_handler.graph.create_output()
+    # regex_handler.graph.create_output()
 
     epsilon_nfa_to_nfa_converter = EpsilonNFAToNFAConverter(regex_handler.graph)
     nfa_graph = epsilon_nfa_to_nfa_converter.epsilon_nfa_to_nfa()
-    #nfa_graph.create_output()
+    # nfa_graph.create_output()
 
-    return nfa_graph
-    # SubstringsAccepted(nfa_graph)
+    if min_state is False:
+        return nfa_graph
 
     nfa_to_nfd_converter = NFAToNFDConverter(nfa_graph)
-    nfd_graph = nfa_to_nfd_converter.nfa_to_nfd()
-    #nfd_graph.create_output()
-    return nfd_graph
+    nfd_graph = nfa_to_nfd_converter.nfa_to_nfd(id=0)
+    # nfd_graph.create_output()
+    # return nfd_graph
 
     state_reducer = StateReducer(nfd_graph)
     reduced_graph = state_reducer.reduce_graph()
-    nfd_graph.create_output()
+
+    return reduced_graph
+    # nfd_graph.create_output()
 
 
 def union_automata(reduced_graph1, reduced_graph_2):
@@ -92,10 +90,18 @@ def intersect_automata(reduced_graph1, reduced_graph2):
 
 
 if __name__ == "__main__":
-    automata1 = create_automata_from_regex("(aa)*")
-    automata2 = create_automata_from_regex("(aaa)*")
+    # test with "(aa)*"
+    automata1 = create_automata_from_regex(min_state=False)
+    # test with "(aaa)*"
+    automata2 = create_automata_from_regex(min_state=False)
 
-    #final_automata = union_automata(automata1, automata2)
+    # automata1.create_output()
+    # automata2.create_output()
+
+    # final_automata = union_automata(automata1, automata2)
+
+    # final_automata = complement_automata(automata1)
+    # final_automata = complement_automata(automata2)
 
     final_automata = intersect_automata(automata1, automata2)
 

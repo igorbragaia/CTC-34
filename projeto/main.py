@@ -6,8 +6,8 @@ from substrings_accepted import SubstringsAccepted
 from state_reducer import StateReducer
 
 if __name__ == "__main__":
-    expr = input("Digite a expressão regular aqui: ")
-    #expr = "(a+b)*bb(b+a)*"
+    #expr = input("Digite a expressão regular aqui: ")
+    expr = "a*b*c*"
     regex_handler = RegexHandler(expr)
 
     while regex_handler.check_running():
@@ -20,13 +20,13 @@ if __name__ == "__main__":
 
     epsilon_nfa_to_nfa_converter = EpsilonNFAToNFAConverter(regex_handler.graph)
     nfa_graph = epsilon_nfa_to_nfa_converter.epsilon_nfa_to_nfa()
-    # nfa_graph.create_output()
+    #nfa_graph.create_output()
 
     # SubstringsAccepted(nfa_graph)
 
     nfa_to_nfd_converter = NFAToNFDConverter(nfa_graph)
-    nfd_graph = nfa_to_nfd_converter.nfa_to_nfd()
-    # nfd_graph.create_output()
+    nfd_graph = nfa_to_nfd_converter.nfa_to_nfd(id=0)
+    #nfd_graph.create_output()
 
     state_reducer = StateReducer(nfd_graph)
     reduced_graph = state_reducer.reduce_graph()

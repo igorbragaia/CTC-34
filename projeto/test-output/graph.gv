@@ -1,0 +1,15 @@
+digraph {
+	0 [shape=doublecircle]
+	5 [shape=doublecircle]
+	6 [shape=doublecircle]
+	"Ø" [shape=circle]
+	0 -> 5 [label=b]
+	0 -> 6 [label=c]
+	5 -> 6 [label=c]
+	"Ø" -> "Ø" [label="a,b,c"]
+	5 -> "Ø" [label=a]
+	6 -> "Ø" [label="a,b"]
+	6 -> 6 [label=c]
+	5 -> 5 [label=b]
+	0 -> 0 [label=a]
+}
