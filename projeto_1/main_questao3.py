@@ -58,12 +58,13 @@ def union_automata(reduced_graph1, reduced_graph_2):
 
     nfa_to_nfd_converter = NFAToNFDConverter(nfa_graph)
     nfd_graph = nfa_to_nfd_converter.nfa_to_nfd(id=id_initial)
-    nfd_graph.create_output()
+    #nfd_graph.create_output()
 
     state_reducer = StateReducer(nfd_graph)
     reduced_graph = state_reducer.reduce_graph()
-    reduced_graph.create_output()
+    #reduced_graph.create_output()
 
+    return reduced_graph
 
 def complement_automata(graph):
     new_nodes = []
@@ -82,6 +83,7 @@ def intersect_automata(reduced_graph1, reduced_graph2):
     reduced_graph2 = complement_automata(reduced_graph2)
 
     final_automata = union_automata(reduced_graph1, reduced_graph2)
+
     final_automata = complement_automata(final_automata)
 
     return final_automata
@@ -93,4 +95,4 @@ if __name__ == "__main__":
 
     final_automata = union_automata(automata1, automata2)
 
-    #final_automata.create_output()
+    final_automata.create_output()
